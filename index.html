@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Калькулятор автономності: чи вистачить павербанка або зарядної станції на час відключення світла.">
+<title>Чи вистачить заряду?</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233a3de0'/%3E%3Cpath d='M18 5 9 18h6l-1 9 9-13h-6z' fill='%23ffd23f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<script src="js/storage.js" defer></script>
+<script src="js/calc.js" defer></script>
+<script src="js/render.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body>
+<div class="page">
+  <header class="hero">
+    <h1 class="hero__title">Чи вистачить заряду?</h1>
+    <p class="hero__lead">Вкажіть ємність станції чи павербанка, прилади та тривалість відключення. Покажемо, чи дотягнете до світла, і підкажемо, що вимкнути.</p>
+  </header>
+
+  <div class="layout">
+    <aside class="layout__result">
+      <section class="verdict verdict--ok" aria-live="polite">
+        <h2 class="verdict__title"></h2>
+        <p class="verdict__text"></p>
+        <div class="gauge">
+          <div class="gauge__bar"><span class="gauge__fill"></span><span class="gauge__gap"></span></div>
+          <p class="gauge__legend"><span class="gauge__runtime"></span><span class="gauge__outage"></span></p>
+        </div>
+        <dl class="stats">
+          <div class="stats__item"><dt class="stats__name">Навантаження</dt><dd class="stats__value stats__load"></dd></div>
+          <div class="stats__item"><dt class="stats__name">Працюватиме</dt><dd class="stats__value stats__runtime"></dd></div>
+          <div class="stats__item"><dt class="stats__name">Доступна енергія</dt><dd class="stats__value stats__usable"></dd></div>
+          <div class="stats__item"><dt class="stats__name">Потрібна ємність</dt><dd class="stats__value stats__need"></dd></div>
+        </dl>
+        <div class="tip" hidden>
+          <h3 class="tip__title"></h3>
+          <p class="tip__text"></p>
+        </div>
+      </section>
+    </aside>
+
+    <main class="layout__form">
+      <section class="panel">
+        <h2 class="panel__title">Джерело живлення</h2>
+        <div class="fields">
+          <label class="field"><span class="field__label">Ємність, Вт·год</span>
+            <input class="field__input" data-field="cap" type="number" inputmode="decimal" min="0" step="any"></label>
+          <label class="field"><span class="field__label">Зараз заряджено, %</span>
+            <input class="field__input" data-field="soc" type="number" inputmode="decimal" min="0" max="100"></label>
+          <label class="field"><span class="field__label">ККД інвертора, %</span>
+            <input class="field__input" data-field="eff" type="number" inputmode="decimal" min="1" max="100"></label>
+          <label class="field"><span class="field__label">Світла не буде, год</span>
+            <input class="field__input" data-field="outage" type="number" inputmode="decimal" min="0" step="0.5"></label>
+        </div>
+        <p class="panel__note">Павербанк на 20 000 мА·год при 3,7 В це близько 74 Вт·год. Для станції ємність зазвичай вказана на корпусі. ККД 85% підходить для більшості інверторів.</p>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__title">Прилади</h2>
+        <div class="chips" aria-label="Додати типовий прилад"></div>
+        <div class="devices__head"><span></span><span>Назва</span><span>Вт</span><span>Працює, %</span><span></span></div>
+        <ul class="devices"></ul>
+        <p class="panel__note">«Працює, %» враховує, що холодильник вмикається не постійно: у середньому приблизно третину часу.</p>
+        <button class="btn btn--ghost devices__add" type="button">Додати свій прилад</button>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>
